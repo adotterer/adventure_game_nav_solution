@@ -32,6 +32,8 @@ const server = http.createServer((req, res) => {
       res.end(updatedHtml);
       return;
     } else if (number && direction) {
+      // The .move method on the player only accepts the first letter of the direction
+      // So, we slice the first letter of the direction from the URL
       let nextRoom = player.move(direction.slice(0, 1));
       res.statusCode = 302;
 
@@ -63,6 +65,8 @@ const server = http.createServer((req, res) => {
       // ---> the req.body is now turned into a usable object
       if (req.method === "POST" && req.url === "/player") {
         const { name } = req.body;
+        // word.rooms[id] can be any number from 1-5
+        // --> see game/data/basic-world-data.js
         const currentRoom = world.rooms[2];
         player = new Player(name, currentRoom);
         res.statusCode = 302;
